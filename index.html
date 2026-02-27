@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>随机选号工具</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui, sans-serif}
+        body{padding:20px;background:#f5f5f5;max-width:600px;margin:0 auto}
+        .box{background:white;padding:20px;border-radius:12px;margin-bottom:15px;box-shadow:0 2px 8px #0001}
+        h2{margin-bottom:12px;font-size:18px}
+        button{padding:10px 16px;background:#1677ff;color:white;border:none;border-radius:8px;cursor:pointer;margin:5px 0}
+        .result{margin-top:12px;font-size:16px;line-height:1.6;min-height:24px}
+        .num{display:inline-block;padding:4px 8px;background:#e6f0ff;border-radius:6px;margin:0 4px 4px 0}
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>福彩 3D 随机选号</h2>
+    <button onclick="rand3D()">生成1注3D</button>
+    <div id="res3D" class="result"></div>
+</div>
+
+<div class="box">
+    <h2>双色球随机选号（6红+1蓝）</h2>
+    <button onclick="randShuangSe()">生成1注双色球</button>
+    <div id="resShuang" class="result"></div>
+</div>
+
+<div class="box">
+    <h2>大乐透随机选号（5前+2后）</h2>
+    <button onclick="randDaLeTou()">生成1注大乐透</button>
+    <div id="resLeTou" class="result"></div>
+</div>
+
+<script>
+// 3D
+function rand3D(){
+    const a = Math.floor(Math.random()*10)
+    const b = Math.floor(Math.random()*10)
+    const c = Math.floor(Math.random()*10)
+    document.getElementById('res3D').innerHTML = 
+        `<span class="num">${a}</span> <span class="num">${b}</span> <span class="num">${c}</span>`
+}
+
+// 双色球 6红(1-33不重复) + 1蓝(1-16)
+function randShuangSe(){
+    let red = []
+    while(red.length < 6){
+        let n = Math.floor(Math.random()*33)+1
+        if(!red.includes(n)) red.push(n)
+    }
+    red.sort((x,y)=>x-y)
+    let blue = Math.floor(Math.random()*16)+1
+    document.getElementById('resShuang').innerHTML = 
+        red.map(x=>`<span class="num">${x}</span>`).join(' ') + '  +  <span class="num">'+blue+'</span>'
+}
+
+// 大乐透 5前(1-35) + 2后(1-12)
+function randDaLeTou(){
+    let front = []
+    while(front.length < 5){
+        let n = Math.floor(Math.random()*35)+1
+        if(!front.includes(n)) front.push(n)
+    }
+    front.sort((x,y)=>x-y)
+    let back = []
+    while(back.length < 2){
+        let n = Math.floor(Math.random()*12)+1
+        if(!back.includes(n)) back.push(n)
+    }
+    back.sort((x,y)=>x-y)
+    document.getElementById('resLeTou').innerHTML = 
+        front.map(x=>`<span class="num">${x}</span>`).join(' ') + '  +  ' + back.map(x=>`<span class="num">${x}</span>`).join(' ')
+}
+</script>
+</body>
+</html>
